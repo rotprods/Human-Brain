@@ -1,373 +1,430 @@
-# PLAN-003 — Rust Clean-Room Reconstruction & Architecture Convergence
+# PLAN-003 — First-Principles Minimal Rust Research Program
 
-Status: CANONICAL NEXT PLAN
+Status: CANONICAL NEXT PLAN CANDIDATE
 Owner: Human-Brain
-Primary language: Rust
-Branch: plan/003-rust-cleanroom-architecture
+Primary implementation language: Rust
+Branch: `plan/003-rust-cleanroom-architecture`
 
 ## 1. Mission
 
-Reconstruct `Human-Brain` from first principles in Rust as a deterministic, multiscale, evidence-bound cognitive runtime inspired by scientifically defensible mechanisms of the human brain.
+Reconstruct `Human-Brain` from zero in Rust by discovering the **minimum set of computational mechanisms** required to obtain useful brain-like cognitive properties.
 
-This plan explicitly supersedes any interpretation that existing Roberto/rotprods repositories, prior architectures, frameworks, codebases, naming conventions, or implementation choices are authoritative inputs to the new architecture.
+The project does not start by reproducing brain anatomy, by porting previous repositories, or by pre-selecting a sophisticated software architecture.
 
-The project is CLEAN-ROOM FIRST and RUST FIRST.
+The operating loop is:
 
-## 2. Hard architectural independence rule
+```text
+QUESTION
+→ HYPOTHESIS
+→ MINIMAL MODEL
+→ EXPERIMENT
+→ MEASURE
+→ KEEP / KILL
+→ NEXT NECESSARY COMPLEXITY
+```
 
-Existing repositories are treated only as an external comparison corpus.
+The optimization target is:
 
-They MAY contribute:
-- lessons learned;
+```text
+maximum useful cognitive capability
+──────────────────────────────────
+minimum necessary system complexity
+```
+
+## 2. Primary research question
+
+> What is the smallest scientifically defensible set of computational mechanisms whose combination materially improves continuous learning, associative recall, contextual memory, generalization, replay, adaptive forgetting and planning over simpler baselines?
+
+This question outranks every previously proposed architecture.
+
+## 3. Hard independence rule
+
+Existing `rotprods` repositories, external frameworks, previous Human-Brain diagrams and earlier architectural proposals are **non-authoritative**.
+
+They may later provide:
+- lessons;
 - anti-patterns;
-- failure evidence;
-- benchmarks;
-- useful tests or acceptance contracts;
-- independently validated algorithms;
-- reusable ideas whose value survives first-principles review;
+- benchmark ideas;
+- tests;
+- algorithms worth independently reimplementing;
 - interoperability requirements.
 
-They MUST NOT:
-- define the architecture by inheritance;
-- force TypeScript/Python patterns into the Rust kernel;
-- determine module boundaries;
-- determine the memory model;
-- determine the graph model;
-- determine concurrency semantics;
-- determine persistence semantics;
-- determine the scheduler;
-- determine scientific abstractions;
-- be copied merely because they already exist.
+They may not determine:
+- module boundaries;
+- scheduler design;
+- graph representation;
+- memory representation;
+- concurrency model;
+- persistence model;
+- scientific abstractions;
+- crate structure.
 
-Canonical decision order:
+Decision order:
 
-1. scientific evidence and explicit project goal;
-2. first-principles systems reasoning;
-3. measurable runtime requirements;
-4. determinism, correctness, safety, performance and evolvability;
-5. architecture experiments and benchmarks;
-6. only then comparison against existing repositories.
+1. project goal;
+2. scientific evidence;
+3. explicit invariants;
+4. simplest viable mechanism;
+5. experiment;
+6. measurement;
+7. only then comparison with existing code or frameworks.
 
-Existing repos are evidence, never authority.
+Legacy code is evidence, not authority.
 
-## 3. Clean-room decision protocol
+## 4. Nothing architectural is canon yet
 
-For every major architectural decision:
+The following remain hypotheses, not commitments:
 
-1. State the problem without referencing an existing repo.
-2. Derive candidate solutions from requirements and scientific constraints.
-3. Define invariants.
-4. Define falsifiable engineering predictions.
-5. Prototype/benchmark competing candidates where needed.
-6. Select the provisional best architecture.
-7. Only after provisional selection, inspect existing repositories and external frameworks.
-8. Classify any discovered capability as `PORT`, `ADAPT`, `WRAP`, `REFERENCE`, or `REJECT`.
-9. Re-open the decision only if new evidence materially beats the clean-room candidate.
-10. Persist the rationale, graph impact and tests.
+| Candidate | Status |
+|---|---|
+| Rust as production core | HIGH-CONFIDENCE HYPOTHESIS |
+| deterministic scientific runtime | HYPOTHESIS |
+| separate Simulation / Agency planes | HYPOTHESIS |
+| ECS | UNDECIDED |
+| custom SoA | UNDECIDED |
+| CSR/CSC neural topology | UNDECIDED |
+| event sourcing | UNDECIDED |
+| temporal property graph | UNDECIDED |
+| actor model | UNDECIDED |
+| fixed timestep | UNDECIDED |
+| discrete-event simulation | UNDECIDED |
+| hybrid multirate scheduler | UNDECIDED |
+| GPU | DEFERRED |
+| distributed runtime | DEFERRED |
+| adaptive fidelity / LOD | DEFERRED |
+| glial simulation | DEFERRED |
+| full anatomical decomposition | DEFERRED |
 
-This ordering is mandatory to reduce anchoring and architecture-by-legacy.
+No item moves to `ACCEPTED` without a demonstrated need or experiment.
 
-## 4. Core architecture hypothesis to test, not blindly assume
+## 5. Science does not dictate software boundaries
 
-The current candidate architecture consists of two execution planes:
+A biological structure is not automatically a crate, service, class or process.
 
-### Deterministic Simulation Plane
+For every brain mechanism we first ask:
 
-Rust-only scientific core responsible for:
-- logical BrainTime;
-- deterministic RNG streams;
-- causal event ordering;
-- multirate scheduling;
-- neural/population/assembly state;
-- topology;
-- plasticity;
-- neuromodulation;
-- homeostasis;
-- memory dynamics;
-- replay;
-- consolidation;
-- snapshots;
-- state hashes;
-- deterministic replay;
-- scientific experiments.
-
-Hard boundary: no direct wall clock, LLM provider, network I/O, MCP, filesystem side effect, external agent, or nondeterministic async scheduling inside the scientific hot path.
-
-### Agency / Executive Plane
-
-Peripheral asynchronous Rust services/adapters responsible for:
-- LLMs;
-- MCP;
-- tools;
-- agents/subagents;
-- external APIs;
-- user/world I/O;
-- model routing;
-- permissions;
-- budgets;
-- cancellation;
-- remote services.
-
-Cross-plane communication occurs only through typed, recordable ports/events.
-
-This two-plane model remains a hypothesis until architecture experiments validate it.
-
-## 5. Data architecture hypothesis
-
-Do not force all information into one universal graph store.
-
-Use a shared identity/provenance spine with specialized physical substrates:
-
-1. Neural Topology Store — sparse, data-oriented, cache-efficient, CSR/CSC-like structures where appropriate.
-2. Component State Store — SoA/ECS-like storage for homogeneous state and high-throughput systems.
-3. Temporal Cognitive Graph — typed, temporal, versioned property graph for episodes, concepts, beliefs, goals, causal relations and schemas.
-4. Immutable Event Ledger — durable causal/control/cognitive events, with selective neural traces.
-5. Derived Index Fabric — ANN/vector/BM25/full-text/materialized projections; never the canonical truth.
-
-Any of these choices may be replaced if experiments demonstrate a better design.
-
-## 6. Scientific architecture constraint
-
-Every biologically named component must carry an explicit abstraction class:
-
-- `DIRECT_MODEL`
-- `CONSTRAINED_ANALOGY`
-- `FUNCTIONAL_ANALOGY`
-- `ENGINEERING_ABSTRACTION`
-- `EXPERIMENTAL`
-
-Every such model must link:
-- scientific evidence;
-- assumptions;
-- parameters and provenance;
-- falsifiable predictions;
-- validation experiment;
-- known limitations.
-
-No biological label is accepted as proof of biological equivalence.
-
-## 7. Mechanism-first architecture
-
-Software boundaries are derived from computational mechanisms rather than anatomy labels.
+```text
+What computation appears to be occurring?
+What observable property does it produce?
+What is the smallest model capable of reproducing that property?
+```
 
 Example:
 
-`HippocampalModel` may compose:
-- sparse encoding;
-- pattern separation;
-- recurrent association;
-- temporal binding;
-- comparator/readout;
-- replay;
-- plasticity.
+`hippocampal pattern separation` may initially require only a sparse encoding mechanism and an experiment demonstrating reduced interference between similar episodes.
 
-A brain region is a model composition, not automatically a crate, service or process.
+It does **not** justify a large `hippocampus/` subsystem by itself.
 
-## 8. Multiscale fidelity
+## 6. Complexity budget
 
-Architecture must support multiple levels of detail:
+Every new abstraction must answer all seven questions:
 
-- cognitive system;
-- brain region / neural mass;
-- population;
-- assembly / engram;
-- neuron;
-- dendritic compartment.
+1. What observed problem does it solve?
+2. Why can the current system not solve that problem?
+3. What is the simpler alternative?
+4. What evidence favors this option?
+5. What complexity does it add?
+6. Can it be removed or replaced later?
+7. How will we measure whether it was worth adding?
 
-The same runtime should eventually allow mixed-resolution experiments.
+If these cannot be answered:
 
-Adaptive refinement/coarsening is a future capability and must preserve declared invariants.
+```text
+DO NOT ADD IT
+```
 
-## 9. Rust-first implementation constraints
+This applies equally to graphs, schedulers, services, crates, databases, agents, CI gates and neuroscience-inspired mechanisms.
 
-The kernel and performance-critical fabrics are written from zero in Rust.
+## 7. Initial repository scope
 
-Initial workspace should stay deliberately small until boundaries are proven:
+Do not bootstrap a large architecture.
 
-- `hb-core`
-- `hb-sim`
-- `hb-graph`
-- `hb-neural`
-- `hb-memory`
-- `hb-cognition`
-- `hb-models`
-- `hb-science`
-- `hb-agency`
-- `hb-cli`
+Initial production workspace target:
 
-Crates are split further only after profiling, dependency analysis and ownership boundaries justify it.
+```text
+crates/
+├── hb-core/
+└── hb-experiments/
+```
 
-Python is allowed for research notebooks/reference experiments/data preparation.
-TypeScript is allowed for visualization/operator surfaces.
-Neither may define the scientific kernel architecture.
+Additional crates exist only after a real ownership or dependency boundary appears.
 
-## 10. Repository archaeology role
+Initial candidate primitives are deliberately small:
 
-The ecosystem scan remains valuable but is moved after clean-room candidate generation.
+```text
+Entity
+Relation
+Event
+Activation
+Memory
+```
 
-For each external/internal repo or framework:
+plus `Clock` and deterministic `RNG` if an experiment requires them.
 
-- mine symbols, algorithms, tests, workflows and failures;
-- identify capability;
-- measure maturity;
-- inspect license;
-- detect dead code and architecture drift;
-- extract anti-patterns;
-- compare with the independently derived Rust candidate.
+Even these primitives are replaceable.
 
-The result is a `REUSE.graph`, not a dependency list.
+## 8. First experimental system
 
-## 11. Architecture-reality rule
+Build a tiny synthetic world before attempting anatomical brain simulation.
 
-Executable reality outranks documentation.
+The system observes partially overlapping sequences such as:
 
-Truth order:
+```text
+A → B → C
+A → B → D
+X → B → C
+A → Y → C
+```
 
-1. reproducible runtime probe;
-2. reproducible integration/scientific experiment;
-3. actual execution path;
-4. code and schema;
-5. generated graph/state;
-6. architecture docs;
-7. plans;
-8. comments/docstrings.
+Evaluate whether a candidate mechanism can:
 
-A passing unit test on unwired/dead code is not proof of implementation.
+1. encode individual episodes;
+2. reconstruct missing elements;
+3. distinguish highly similar episodes;
+4. strengthen useful associations;
+5. generalize recurring structure;
+6. resist irrelevant noise;
+7. forget selectively;
+8. replay previous experiences offline;
+9. improve after replay rather than merely repeat stored data.
 
-## 12. Graph × impact rule
+## 9. Required baselines
 
-Every decision/change becomes graph nodes and edges.
+No brain-inspired mechanism is considered useful without beating appropriate simpler baselines.
 
-Minimum node classes:
-- Goal
-- Requirement
-- ScientificClaim
-- Source
-- Hypothesis
-- Model
-- Mechanism
-- Algorithm
-- Component
-- Crate
-- Symbol
-- Test
-- Benchmark
-- Experiment
-- Invariant
-- Risk
-- Decision
-- Question
-- Plan
-- Task
-- PR
+Minimum comparison:
 
-Every proposed change must compute semantic blast radius through propagation-enabled relationships.
+```text
+B0 — key/value episodic store
+B1 — similarity/vector retrieval
+B2 — simple associative graph
+B3 — candidate brain-inspired mechanism
+```
 
-No merge while required impacted nodes remain dirty.
+Metrics must include where applicable:
+- exact recall;
+- partial-cue recall;
+- interference;
+- false association rate;
+- generalization accuracy;
+- retention after noise;
+- improvement after replay;
+- memory cost;
+- compute cost;
+- latency;
+- determinism/reproducibility.
 
-## 13. Workstreams
+If B3 does not materially beat simpler baselines on its claimed property, the mechanism is rejected or redesigned.
 
-### WS-1 — Scientific reconstruction
-Re-ingest and amplify the advanced brain research; decompose into claims, mechanisms, evidence, contradictions, parameters and experiments.
+## 10. Mechanisms enter one at a time
 
-### WS-2 — Clean-room architecture derivation
-Derive competing kernel/runtime/data architectures from first principles without consulting legacy code during initial candidate generation.
+Candidate sequence, subject to experimental results:
 
-### WS-3 — Rust architecture spikes
-Build throwaway benchmarks/prototypes for scheduler, state layout, topology, event model, graph representation, snapshots and replay.
+```text
+association
+→ sparse activation / competition
+→ plasticity
+→ episodic linking
+→ replay
+→ consolidation
+→ adaptive forgetting
+→ working state
+→ prediction error
+→ action selection
+```
 
-### WS-4 — Ecosystem archaeology
-Only after WS-2 candidate architecture exists, contrast all relevant existing repos and frameworks.
+A later mechanism is not implemented simply because it appears in the brain.
 
-### WS-5 — Architecture gauntlet
-Run code/system/science/security/performance/questions reviews against candidate architectures.
+It enters only when the current system exhibits a measurable limitation that the mechanism plausibly addresses.
 
-### WS-6 — Convergence
-Produce Architecture vNext, ADRs, rejected alternatives, benchmark evidence, risk graph and final BrainSpec prerequisites.
+## 11. Scientific evidence contract
 
-## 14. Required architecture experiments before freeze
+For every biologically inspired mechanism record only what is necessary:
 
-At minimum compare/test:
+```text
+claim
+source
+confidence / uncertainty
+software abstraction
+assumptions
+predicted behavior
+experiment
+result
+```
 
-- fixed-step vs event-driven vs hybrid multirate scheduler;
-- ECS/SoA vs alternative data-oriented state representations;
-- CSR/CSC/sparse adjacency alternatives for neural topology;
-- deterministic parallel reductions;
-- event ledger granularity and storage cost;
-- snapshot + replay strategy;
-- ID/version/causality model;
-- temporal cognitive graph representations;
-- graph projection/index strategy;
-- mutation buffering/barrier semantics;
-- deterministic RNG partitioning;
-- memory retrieval/index architecture;
-- regional model composition API;
-- Simulation Plane ↔ Agency Plane typed boundary.
+Classification:
 
-Architecture decisions should be benchmark-backed wherever performance or scale matters.
+```text
+DIRECT_MODEL
+CONSTRAINED_ANALOGY
+FUNCTIONAL_ANALOGY
+ENGINEERING_ABSTRACTION
+EXPERIMENTAL
+```
 
-## 15. Anti-anchoring gates
+No biological terminology is allowed to imply equivalence by naming alone.
 
-A decision FAILS review if its principal justification is:
-- “we already have this in repo X”;
-- “COS does it this way”;
-- “AMI already implements it”;
-- “Tengu already has this primitive”;
-- “it is easier to port”; or
-- “we designed it earlier”.
+## 12. Determinism policy
 
-Required justification must instead reference goals, invariants, evidence, experiments, complexity, performance, safety or maintainability.
+Determinism is currently a strong candidate requirement because it enables:
+- reproducible experiments;
+- causal debugging;
+- regression testing;
+- reliable comparison between models.
 
-## 16. Preservation rule
+But we do not pre-commit to one scheduler architecture.
 
-Previous research, architectural proposals and repository findings are not deleted.
+We first define the invariant:
 
-They are retained as:
-- hypotheses;
-- evidence;
-- historical decisions;
-- candidate patterns;
-- anti-patterns;
-- comparison baselines.
+```text
+same model + same seed + same input trace
+→ same scientifically relevant result
+```
 
-They do not become canonical architecture until revalidated by this plan.
+Then compare the simplest scheduling designs capable of satisfying it.
 
-## 17. Exit criteria
+## 13. Architecture spikes are disposable
 
-PLAN-003 closes only when:
+When a decision cannot be made cheaply from reasoning, build the smallest benchmark or prototype that answers the question.
 
-- advanced neuroscience research is preserved and graphified;
-- clean-room Rust architecture candidates have been derived independently;
-- core architecture experiments have executable results;
-- relevant rotprods repos have been mined after candidate derivation;
-- repository-derived ideas have explicit PORT/ADAPT/WRAP/REFERENCE/REJECT decisions;
-- all P0 architecture contradictions are resolved;
-- deterministic Simulation/Agency boundary is validated;
-- source-of-truth ownership is explicit;
-- no major component exists solely because of legacy architecture;
-- Architecture vNext has evidence-backed ADRs;
-- BrainSpec can be defined without depending on legacy implementation details.
+Examples only when needed:
+- AoS vs SoA;
+- custom store vs ECS;
+- adjacency list vs CSR;
+- fixed-step vs event-driven;
+- snapshot-only vs selective event log;
+- single-thread vs deterministic parallel reduction.
 
-## 18. Immediate next actions
+Spikes are not production code by default.
 
-1. Bootstrap repository governance and persistent plans structure.
-2. Persist the complete advanced neuroscience research as PLAN-001 corpus/evidence.
-3. Persist Graph×Loop governance as PLAN-002 requirements.
-4. Execute this PLAN-003 clean-room derivation.
-5. Generate at least 2-3 competing Rust architecture candidates.
-6. Benchmark critical primitives.
-7. Only then run the deep ecosystem/repository comparison pass.
-8. Reconcile findings into Architecture vNext.
-9. Freeze BrainSpec only after architecture gauntlet passes.
-10. Begin production Rust kernel implementation afterwards.
+A successful spike yields a decision and test evidence, not an obligation to preserve its implementation.
 
-## 19. Canonical invariant
+## 14. Repository archaeology is demand-driven
 
-`Human-Brain` is rebuilt from zero in Rust.
+Do **not** deeply analyze all ~100 repositories before building the minimal model.
 
-Legacy code may teach us.
-Legacy code may warn us.
-Legacy code may supply test ideas.
-Legacy code may even contain an algorithm worth reimplementing.
+Inspect existing repositories only when a concrete question exists.
 
-Legacy code does not get a vote merely because it already exists.
+Examples:
+
+```text
+Question: how should replay persistence work?
+→ inspect relevant internal/external persistence implementations.
+
+Question: how should deterministic scheduling scale?
+→ inspect simulation engines and relevant Rust runtimes.
+```
+
+This prevents archaeology paralysis and anchoring.
+
+A broad automated ecosystem scan may be useful later, but it is not a prerequisite for the first scientific experiments.
+
+## 15. Minimal governance
+
+Initial durable project control requires only:
+
+```text
+GOAL.md
+STATE.md
+PLAN.md / plans/
+DECISIONS.md
+Git history + PRs
+```
+
+Do not create seven ledgers, seven graphs or dozens of CI gates before they solve an observed coordination problem.
+
+The four review perspectives remain mandatory conceptually:
+
+```text
+/code-review
+/security-review
+/QA-review
+/questions-review
+```
+
+Initially they are review protocols, not separate software systems.
+
+## 16. Traceability without coupling
+
+Canonical principle:
+
+> Everything important must be traceable; not everything should be connected or coupled.
+
+Use a graph only when a relationship enables a useful query, validation, impact analysis or decision.
+
+Do not graph data merely because it can be represented as nodes and edges.
+
+Target:
+
+```text
+high traceability
+low coupling
+```
+
+## 17. Stop / kill rules
+
+Stop a line of implementation when:
+- it does not beat the relevant baseline;
+- its claimed property cannot be measured;
+- complexity grows faster than demonstrated capability;
+- a simpler mechanism produces equivalent behavior;
+- reproducibility becomes impossible without a justified reason;
+- biological naming is doing more work than the algorithm;
+- infrastructure is being built for hypothetical future scale rather than current experiments.
+
+Rejected work remains research evidence, not failure to be hidden.
+
+## 18. Phase sequence
+
+### Phase A — preserve the science
+Persist the advanced neuroscience investigation as evidence/research without translating every finding into architecture.
+
+### Phase B — minimal Rust harness
+Create the smallest Rust experiment harness capable of deterministic seeded runs and quantitative metrics.
+
+### Phase C — baselines
+Implement B0/B1/B2 as small reference baselines.
+
+### Phase D — first mechanism
+Implement one candidate associative/plastic memory mechanism.
+
+### Phase E — falsification
+Run the benchmark suite and decide KEEP / KILL / REDESIGN.
+
+### Phase F — next bottleneck
+Observe the strongest remaining failure and only then select the next biological/computational mechanism to investigate.
+
+Repeat Phases D–F.
+
+## 19. Immediate next actions
+
+1. Keep this PR draft until review completes.
+2. Persist the advanced neuroscience research corpus separately without declaring architecture from it.
+3. Define a one-page `GOAL.md` with measurable cognitive properties.
+4. Define the first experiment and metric suite before creating a large crate hierarchy.
+5. Create only `hb-core` and `hb-experiments` when code begins.
+6. Implement B0/B1/B2.
+7. Implement one minimal candidate brain-inspired associative memory.
+8. Benchmark.
+9. Keep, kill or redesign based on results.
+10. Add the next piece of complexity only when an observed limitation justifies it.
+
+## 20. Canonical invariants
+
+```text
+NO COMPLEXITY WITHOUT A MEASURED NEED
+NO BIOLOGICAL NAME WITHOUT A COMPUTATIONAL CLAIM
+NO CLAIM WITHOUT A TESTABLE PREDICTION
+NO NEW ABSTRACTION WITHOUT A SIMPLER ALTERNATIVE CONSIDERED
+NO LEGACY ARCHITECTURE BY INHERITANCE
+NO REPO ARCHAEOLOGY WITHOUT A QUESTION
+NO SCALE INFRASTRUCTURE BEFORE SCALE EVIDENCE
+NO ARCHITECTURE FREEZE BEFORE BASELINES
+NO FEATURE WITHOUT MEASUREMENT
+```
+
+And above all:
+
+```text
+BUILD THE SMALLEST THING THAT CAN PROVE OR DISPROVE THE NEXT IMPORTANT IDEA.
+```

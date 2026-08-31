@@ -1,0 +1,109 @@
+version: 1
+name: Human-Brain Agentic Development Training Graph
+status: live
+
+nodes:
+  - {id: TRAIN-T001, type: TrainingModule, status: ACCEPTED, label: David Ondrej Agentic Engineering Q3 2026}
+  - {id: SRC-DAVID-SKILLS, type: Source, status: VERIFIED, label: davidondrej/skills}
+  - {id: PRIN-PROGRESSIVE-DISCLOSURE, type: Principle, status: ACCEPTED, label: Load only relevant training/skills on demand}
+  - {id: PRIN-STATE-TRACKING, type: Principle, status: ACCEPTED, label: Explicit worker state tracking}
+  - {id: PRIN-PRIORITY-SCHEDULING, type: Principle, status: ACCEPTED, label: Priority-aware manager scheduling}
+  - {id: PRIN-MANAGER-WORKER, type: Principle, status: ACCEPTED, label: Manager owns delegation integration and verification}
+  - {id: PRIN-SUBAGENT-THRESHOLD, type: Principle, status: ACCEPTED, label: Delegate only when expected value exceeds overhead}
+  - {id: PRIN-ISOLATION, type: Principle, status: ACCEPTED, label: Parallel writers require isolated or partitioned state}
+  - {id: PRIN-WORKTREE-THRESHOLD, type: Principle, status: ADAPTED, label: Worktrees triggered by concurrency/collision risk}
+  - {id: PRIN-HUMAN-MATERIAL-DECISION, type: Principle, status: ACCEPTED, label: Human controls unresolved material product/architecture choices}
+  - {id: PRIN-GOAL-CONTRACT, type: Principle, status: ACCEPTED, label: Long autonomy requires verifiable goal contract}
+  - {id: PRIN-ANTI-REWARD-HACK, type: Principle, status: ACCEPTED, label: Never weaken validation to satisfy goal}
+  - {id: PRIN-HETERO-REVIEW, type: Principle, status: ACCEPTED, label: Independent heterogeneous review when material}
+  - {id: PRIN-REVIEW-TRIAGE, type: Principle, status: ACCEPTED, label: Dedupe and reality-check review findings}
+  - {id: RISK-RECURSIVE-REVIEW, type: Risk, status: ACCEPTED, label: Recursive issue-mining produces hallucinated defects}
+  - {id: PRIN-PUSH-LOCK, type: Principle, status: ACCEPTED, label: Single-writer integration critical section}
+  - {id: PRIN-PRETOOL-GUARDRAIL, type: Principle, status: ACCEPTED, label: Guard destructive operations before side effects}
+  - {id: PRIN-PERSISTENT-EXECUTION, type: Principle, status: PROVISIONAL, label: Durable remote execution when measured bottleneck justifies it}
+  - {id: PRIN-HEARTBEAT, type: Principle, status: ACCEPTED, label: Event-driven gated heartbeats and silence on no-op}
+  - {id: PRIN-HANDOFF, type: Principle, status: ACCEPTED, label: Handoff stores state why dead ends and pointers}
+  - {id: PRIN-TEST-RIGHTSIZE, type: Principle, status: ADAPTED, label: Tests proportional to realistic risk}
+  - {id: PRIN-READONLY-PROD, type: Principle, status: ACCEPTED, label: Agent production access read-only by default}
+  - {id: PRIN-ADR-THRESHOLD, type: Principle, status: ACCEPTED, label: ADR only for durable non-obvious decisions}
+  - {id: PRIN-REPEAT-TO-SKILL, type: Principle, status: ACCEPTED, label: Repetition earns aliases or skills}
+  - {id: PRIN-QUEUE-REVALIDATE, type: Principle, status: ADAPTED, label: Queued next actions revalidate predecessor state}
+  - {id: PRIN-PRODUCTIVITY-METRICS, type: Principle, status: ACCEPTED, label: Measure verified outcomes not raw activity}
+  - {id: VOLATILE-MODELS-SUBSCRIPTIONS, type: VolatileKnowledge, status: VOLATILE, label: Model rankings subscriptions prices and limits}
+  - {id: REJECT-YOLO-GLOBAL, type: RejectedRule, status: REJECTED, label: Always bypass permissions}
+  - {id: REJECT-ALWAYS-WORKTREE, type: RejectedRule, status: REJECTED, label: Always require worktree}
+  - {id: REJECT-AUTO-SHIP, type: RejectedRule, status: REJECTED, label: Auto merge/push every worker output}
+  - {id: PROTO-AGENTS, type: Protocol, status: ACCEPTED, label: AGENTS.md runtime contract}
+  - {id: PROTO-OPERATING-V1, type: Protocol, status: ACCEPTED, label: Agentic Development Operating Protocol v1}
+  - {id: PLAN-GAUNTLET, type: Plan, status: ACCEPTED, label: PLAN-002 real gauntlet-loop}
+  - {id: HYP-ECP-001, type: Hypothesis, status: PROVISIONAL, label: Ensemble Cognitive Processing}
+
+edges:
+  - {from: TRAIN-T001, relation: VERIFIED_AGAINST, to: SRC-DAVID-SKILLS}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-PROGRESSIVE-DISCLOSURE}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-STATE-TRACKING}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-MANAGER-WORKER}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-GOAL-CONTRACT}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-HETERO-REVIEW}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-PUSH-LOCK}
+  - {from: TRAIN-T001, relation: TEACHES, to: PRIN-HANDOFF}
+  - {from: PRIN-STATE-TRACKING, relation: ENABLES, to: PRIN-PRIORITY-SCHEDULING}
+  - {from: PRIN-MANAGER-WORKER, relation: GOVERNED_BY, to: PRIN-SUBAGENT-THRESHOLD}
+  - {from: PRIN-MANAGER-WORKER, relation: USES, to: PRIN-PRIORITY-SCHEDULING}
+  - {from: PRIN-SUBAGENT-THRESHOLD, relation: REQUIRES_WHEN_PARALLEL, to: PRIN-ISOLATION}
+  - {from: PRIN-WORKTREE-THRESHOLD, relation: IMPLEMENTS_WHEN_NEEDED, to: PRIN-ISOLATION}
+  - {from: PRIN-GOAL-CONTRACT, relation: PROTECTED_BY, to: PRIN-ANTI-REWARD-HACK}
+  - {from: PRIN-GOAL-CONTRACT, relation: VALIDATED_BY, to: PLAN-GAUNTLET}
+  - {from: PRIN-HETERO-REVIEW, relation: PART_OF, to: PLAN-GAUNTLET}
+  - {from: PRIN-REVIEW-TRIAGE, relation: REDUCES, to: RISK-RECURSIVE-REVIEW}
+  - {from: PRIN-HETERO-REVIEW, relation: REQUIRES, to: PRIN-REVIEW-TRIAGE}
+  - {from: PRIN-PUSH-LOCK, relation: PROTECTS, to: PRIN-ISOLATION}
+  - {from: PRIN-PRETOOL-GUARDRAIL, relation: REJECTS, to: REJECT-YOLO-GLOBAL}
+  - {from: PRIN-WORKTREE-THRESHOLD, relation: SUPERSEDES, to: REJECT-ALWAYS-WORKTREE}
+  - {from: PRIN-PUSH-LOCK, relation: REJECTS, to: REJECT-AUTO-SHIP}
+  - {from: PRIN-PROGRESSIVE-DISCLOSURE, relation: GOVERNS_LOADING_OF, to: TRAIN-T001}
+  - {from: PRIN-HEARTBEAT, relation: SUPPORTS, to: PRIN-STATE-TRACKING}
+  - {from: PRIN-HANDOFF, relation: PERSISTS, to: PRIN-STATE-TRACKING}
+  - {from: PRIN-HUMAN-MATERIAL-DECISION, relation: BOUNDS, to: PRIN-GOAL-CONTRACT}
+  - {from: PRIN-TEST-RIGHTSIZE, relation: SUPPORTS, to: PLAN-GAUNTLET}
+  - {from: PRIN-READONLY-PROD, relation: ENABLES_SAFE, to: PRIN-REVIEW-TRIAGE}
+  - {from: PRIN-REPEAT-TO-SKILL, relation: CONSTRAINED_BY, to: PRIN-PROGRESSIVE-DISCLOSURE}
+  - {from: VOLATILE-MODELS-SUBSCRIPTIONS, relation: CALIBRATES_BUT_DOES_NOT_GOVERN, to: HYP-ECP-001}
+  - {from: HYP-ECP-001, relation: MAY_IMPLEMENT, to: PRIN-HETERO-REVIEW}
+  - {from: PROTO-AGENTS, relation: COMPILES, to: PROTO-OPERATING-V1}
+  - {from: PROTO-OPERATING-V1, relation: DERIVED_FROM, to: TRAIN-T001}
+
+loading_policy:
+  default:
+    - PROTO-AGENTS
+  on_parallel_agents:
+    - PRIN-STATE-TRACKING
+    - PRIN-PRIORITY-SCHEDULING
+    - PRIN-MANAGER-WORKER
+    - PRIN-SUBAGENT-THRESHOLD
+    - PRIN-ISOLATION
+    - PRIN-WORKTREE-THRESHOLD
+    - PRIN-PUSH-LOCK
+  on_long_autonomy:
+    - PRIN-GOAL-CONTRACT
+    - PRIN-ANTI-REWARD-HACK
+    - PRIN-HEARTBEAT
+    - PRIN-HANDOFF
+  on_material_review:
+    - PRIN-HETERO-REVIEW
+    - PRIN-REVIEW-TRIAGE
+    - RISK-RECURSIVE-REVIEW
+    - PLAN-GAUNTLET
+  on_model_selection:
+    - VOLATILE-MODELS-SUBSCRIPTIONS
+    - HYP-ECP-001
+
+invariants:
+  - training_is_not_authority_without_evaluation
+  - progressive_disclosure_over_context_dumping
+  - state_tracking_before_priority_scheduling
+  - parallel_writers_require_isolation
+  - integration_is_single_writer
+  - volatile_model_preferences_expire
+  - no_recursive_issue_mining
+  - no_complexity_without_measured_need

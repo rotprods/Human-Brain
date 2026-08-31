@@ -1,0 +1,175 @@
+version: 1
+name: Human-Brain Program Graph
+status: draft
+
+nodes:
+  - id: GOAL-HB
+    type: Goal
+    label: Measurable brain-inspired cognitive runtime in Rust
+
+  - id: PLAN-001
+    type: Plan
+    label: Scientific Foundation
+  - id: PLAN-002
+    type: Plan
+    label: Real gauntlet-loop Development Protocol
+  - id: PLAN-003
+    type: Plan
+    label: First-Principles Minimal Rust Research Program
+
+  - id: HYP-ECP-001
+    type: Hypothesis
+    label: Ensemble Cognitive Processing
+  - id: HYP-DET-001
+    type: Hypothesis
+    label: Deterministic scientific runtime improves reproducibility
+  - id: HYP-RUST-001
+    type: Hypothesis
+    label: Rust is the best production-core language for target constraints
+
+  - id: EXP-001
+    type: Experiment
+    label: Minimal sequence-memory benchmark
+  - id: EXP-ECP-001
+    type: Experiment
+    label: Fixed vs cascade vs speculative vs ensemble routing
+
+  - id: BASE-B0
+    type: Baseline
+    label: Key-value episodic store
+  - id: BASE-B1
+    type: Baseline
+    label: Similarity/vector retrieval
+  - id: BASE-B2
+    type: Baseline
+    label: Simple associative graph
+
+  - id: ECP-TASK-PROFILER
+    type: ComponentCandidate
+    label: Task Profiler
+  - id: ECP-MODEL-REGISTRY
+    type: ComponentCandidate
+    label: Model Registry with static + live metrics
+  - id: ECP-ROUTER
+    type: ComponentCandidate
+    label: Cognitive Router
+  - id: ECP-VERIFIER
+    type: ComponentCandidate
+    label: Calibrated Verifier
+  - id: ECP-TELEMETRY
+    type: ComponentCandidate
+    label: Routing Outcome Telemetry
+
+  - id: MODE-REFLEX
+    type: PolicyCandidate
+    label: Reflex single fast processor
+  - id: MODE-FAST
+    type: PolicyCandidate
+    label: Fast primary + lightweight verifier
+  - id: MODE-DELIBERATE
+    type: PolicyCandidate
+    label: Independent heterogeneous ensemble
+  - id: MODE-DEEP
+    type: PolicyCandidate
+    label: Speculative draft + strong verification
+  - id: MODE-CRITICAL
+    type: PolicyCandidate
+    label: Multi-provider adversarial evidence mode
+
+  - id: GAUNTLET-INNER
+    type: Process
+    label: Inner implementation/tool loop
+  - id: GAUNTLET-REVIEW
+    type: Process
+    label: Independent reviewer fan-out
+  - id: GAUNTLET-SYNTHESIS
+    type: Process
+    label: Adversarial synthesis
+  - id: GAUNTLET-VERIFY
+    type: Process
+    label: Outer verifier
+  - id: GAUNTLET-STALL
+    type: StopCondition
+    label: Convergence stall
+
+  - id: EVIDENCE-ROUTELLM
+    type: ExternalEvidence
+    label: RouteLLM preference-data routing
+  - id: EVIDENCE-LLMROUTER
+    type: ExternalEvidence
+    label: LLMRouter sequential routing formulation 2026
+  - id: EVIDENCE-FRUGALGPT
+    type: ExternalEvidence
+    label: FrugalGPT cascades
+  - id: EVIDENCE-MOA
+    type: ExternalEvidence
+    label: Mixture-of-Agents
+  - id: EVIDENCE-SPECREASON
+    type: ExternalEvidence
+    label: SpecReason
+  - id: EVIDENCE-RALPH
+    type: ExternalEvidence
+    label: Ralph outer verification loop
+  - id: EVIDENCE-ROTCLAW-GAUNTLET
+    type: InternalEvidence
+    label: ROTCLAW iterative 10-of-10 gauntlet
+
+  - id: REPO-ECP-FRAMEWORK
+    type: Repository
+    label: rotprods/ecp-framework
+    state: empty
+
+edges:
+  - {from: GOAL-HB, to: PLAN-001, type: REQUIRES_EVIDENCE_FROM}
+  - {from: GOAL-HB, to: PLAN-003, type: EXECUTED_BY}
+  - {from: PLAN-002, to: PLAN-003, type: GOVERNS_CHANGES_TO}
+  - {from: PLAN-002, to: PLAN-001, type: VALIDATES_CHANGES_TO}
+  - {from: PLAN-001, to: PLAN-003, type: EVIDENCE_FEEDS}
+
+  - {from: PLAN-003, to: EXP-001, type: RUNS}
+  - {from: EXP-001, to: BASE-B0, type: COMPARES_AGAINST}
+  - {from: EXP-001, to: BASE-B1, type: COMPARES_AGAINST}
+  - {from: EXP-001, to: BASE-B2, type: COMPARES_AGAINST}
+  - {from: PLAN-003, to: HYP-ECP-001, type: MAY_TEST}
+  - {from: PLAN-003, to: HYP-DET-001, type: MAY_TEST}
+  - {from: PLAN-003, to: HYP-RUST-001, type: MAY_TEST}
+  - {from: HYP-ECP-001, to: EXP-ECP-001, type: TESTED_BY}
+
+  - {from: HYP-ECP-001, to: ECP-TASK-PROFILER, type: MAY_REQUIRE}
+  - {from: HYP-ECP-001, to: ECP-MODEL-REGISTRY, type: MAY_REQUIRE}
+  - {from: HYP-ECP-001, to: ECP-ROUTER, type: MAY_REQUIRE}
+  - {from: HYP-ECP-001, to: ECP-VERIFIER, type: MAY_REQUIRE}
+  - {from: HYP-ECP-001, to: ECP-TELEMETRY, type: MAY_REQUIRE}
+
+  - {from: ECP-ROUTER, to: MODE-REFLEX, type: SELECTS}
+  - {from: ECP-ROUTER, to: MODE-FAST, type: SELECTS}
+  - {from: ECP-ROUTER, to: MODE-DELIBERATE, type: SELECTS}
+  - {from: ECP-ROUTER, to: MODE-DEEP, type: SELECTS}
+  - {from: ECP-ROUTER, to: MODE-CRITICAL, type: SELECTS}
+  - {from: ECP-TELEMETRY, to: ECP-ROUTER, type: CALIBRATES}
+  - {from: ECP-VERIFIER, to: ECP-TELEMETRY, type: PRODUCES_QUALITY_SIGNAL_FOR}
+
+  - {from: EVIDENCE-ROUTELLM, to: HYP-ECP-001, type: SUPPORTS_TESTING}
+  - {from: EVIDENCE-LLMROUTER, to: HYP-ECP-001, type: SUPPORTS_TESTING}
+  - {from: EVIDENCE-FRUGALGPT, to: HYP-ECP-001, type: SUPPORTS_TESTING}
+  - {from: EVIDENCE-MOA, to: HYP-ECP-001, type: SUPPORTS_TESTING}
+  - {from: EVIDENCE-SPECREASON, to: HYP-ECP-001, type: SUPPORTS_TESTING}
+
+  - {from: PLAN-002, to: GAUNTLET-INNER, type: DEFINES}
+  - {from: GAUNTLET-INNER, to: GAUNTLET-REVIEW, type: FOLLOWED_BY}
+  - {from: GAUNTLET-REVIEW, to: GAUNTLET-SYNTHESIS, type: FOLLOWED_BY}
+  - {from: GAUNTLET-SYNTHESIS, to: GAUNTLET-VERIFY, type: REMEDIATES_THEN_REVALIDATES_TO}
+  - {from: GAUNTLET-VERIFY, to: GAUNTLET-INNER, type: LOOPS_WITH_FEEDBACK_WHEN_BLOCKED}
+  - {from: GAUNTLET-VERIFY, to: GAUNTLET-STALL, type: MAY_STOP_AS}
+  - {from: EVIDENCE-RALPH, to: PLAN-002, type: INFORMS_OUTER_LOOP}
+  - {from: EVIDENCE-ROTCLAW-GAUNTLET, to: PLAN-002, type: INTERNAL_EXECUTION_EVIDENCE}
+
+  - {from: PLAN-002, to: HYP-ECP-001, type: MAY_USE_FOR_REVIEW_DIVERSITY}
+  - {from: REPO-ECP-FRAMEWORK, to: HYP-ECP-001, type: NAME_INSPIRATION_ONLY}
+
+invariants:
+  - hypotheses_are_not_canon
+  - graphs_capture_useful_dependencies_not_every_possible_relation
+  - existing_repositories_are_non_authoritative
+  - expensive_parallel_models_are_adaptive_not_default
+  - no_merge_on_unresolved_required_gauntlet_blockers
